@@ -25,3 +25,9 @@ export const changePasswordUserSchema = joi.object({
     "string.min": "Mật khẩu mới phải có ít nhất {#limit} ký tự",
   })
 })
+
+export const updateUser = joi.object({
+  address: joi.string().required("Trường dữ liệu bắt buộc!"),
+  phone: joi.string().required("Trường dữ liệu bắt buộc!"),
+  avatar: joi.string().required("Trường dữ liệu bắt buộc!"),
+})
