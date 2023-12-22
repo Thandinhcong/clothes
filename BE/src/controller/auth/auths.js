@@ -100,7 +100,7 @@ export const getInfoUser = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-
+        // const token
     } catch (error) {
         return res.status(500).json(error.message);
     }
