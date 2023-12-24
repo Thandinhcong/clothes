@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { format } from "date-fns";
 
-const authSchmas = mongoose.Schema({
+const authSchmas = new mongoose.Schema({
     name: {
         type: String,
         require: true
@@ -22,7 +22,7 @@ const authSchmas = mongoose.Schema({
         type: String,
     },
     avatar: {
-        type: String
+        type: Object
     },
     createdAt: {
         type: Date,

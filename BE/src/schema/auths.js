@@ -29,5 +29,5 @@ export const changePasswordUserSchema = joi.object({
 export const updateUser = joi.object({
   address: joi.string().required("Trường dữ liệu bắt buộc!"),
   phone: joi.string().required("Trường dữ liệu bắt buộc!"),
-  avatar: joi.string().required("Trường dữ liệu bắt buộc!"),
+  avatar: joi.string(),
 })
