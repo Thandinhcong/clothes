@@ -1,5 +1,5 @@
 import express from "express";
-import { addCategory, listAllCategory, listAllDelete, removeCategory, removeForce, restoreCategory } from "../controller/category/categories";
+import { addCategory, listAllCategory, listAllDelete, removeCategory, removeForce, restoreCategory, updateCategory } from "../controller/category/categories";
 import { authenticate } from "../middleware/authenticate";
 import { authorization } from "../middleware/authoraization";
 
@@ -11,5 +11,5 @@ routerCategorys.delete("/categorys/force/:id", authenticate, authorization, remo
 routerCategorys.patch("/category/restore/:id", authenticate, authorization, restoreCategory); // khôi phục
 routerCategorys.delete("/categorys/delete/:id", authenticate, authorization, removeCategory); // xóa mềm
 routerCategorys.post("/categorys/add", authenticate, authorization, addCategory);
-
+routerCategorys.put('/category/update/:id', authenticate, authorization, updateCategory)
 export default routerCategorys;

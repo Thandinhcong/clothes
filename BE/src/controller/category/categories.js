@@ -26,16 +26,13 @@ export const listAllCategory = async (req, res) => {
 
 export const listAllDelete = async (req, res) => {
     try {
-        // Sử dụng find với điều kiện deletedAt không phải là null
         const deletedCategories = await Category.findWithDeleted({ deleted: true });
-
-
         return res.status(200).json({
             message: "Lấy tất cả danh mục đã bị xóa mềm",
             data: deletedCategories
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error.message,
         });
     }
@@ -70,7 +67,7 @@ export const addCategory = async (req, res) => {
             data: category,
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error,
         });
     }
@@ -89,7 +86,7 @@ export const getCategoryById = async (req, res) => {
             category,
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error.message,
         });
     }
@@ -99,11 +96,10 @@ export const getCategoryById = async (req, res) => {
 export const removeCategory = async (req, res) => {
     try {
         const id = req.params.id;
-        // Sử dụng phương thức delete() provided by mongoose-delete để xóa mềm
         const category = await Category.findById(id.trim());
 
         if (category) {
-            await category.delete();  // Sử dụng phương thức delete() để xóa mềm
+            await category.delete();
             return res.status(200).json({
                 message: "Xoá Danh mục thành công!",
                 data: category
@@ -114,8 +110,7 @@ export const removeCategory = async (req, res) => {
             });
         }
     } catch (error) {
-        console.log("error", error);
-        return res.status(400).json({
+        return res.status(500).json({
             message: error.message,
         });
     }
@@ -130,7 +125,7 @@ export const removeForce = async (req, res) => {
             category
         })
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error,
         })
     }
@@ -151,9 +146,46 @@ export const restoreCategory = async (req, res) => {
             category: restoredCategory,
         });
     } catch (error) {
-        console.log(error);
-        return res.status(400).json({
+        return res.status(500).json({
             message: error.message,
         });
     }
 };
+export const updateCategory = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const body = req.body;
+        const { category_name } = body;
+        const data = await Category.findOne({ category_name, _id: { $ne: id } });
+        if (data) {
+            return res.status(400).json({
+                status: false,
+                message: "Danh mục đã tồn tại!"
+            })
+        }
+        const { error } = schemaCategory.validate(body, { abortEarly: false });
+        if (error) {
+            const errors = error.details.map(err => err.message);
+            return res.status(400).json({
+                status: false,
+                message: errors
+            })
+        }
+        const category = await Category.findOneAndUpdate({ _id: id }, body, { new: true });
+        if (!category && category.length === 0) {
+            return res.status(400).json({
+                status: false,
+                message: "Cập nhật thất bại!"
+            })
+        }
+        return res.status(200).json({
+            status: false,
+            message: "Cập nhật thành công!",
+            category
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}

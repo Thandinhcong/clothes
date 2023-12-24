@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { format } from "date-fns";
 
 const authSchmas = mongoose.Schema({
     name: {
@@ -30,11 +31,25 @@ const authSchmas = mongoose.Schema({
     gender: {
         type: String
     },
+    authType: {
+        type: String,
+        enum: ['local', 'google', 'facebook'],
+        default: 'local'
+    },
     role: {
         type: String,
         default: "member",
-    }
-
+    },
+    googleId: {
+        type: String,
+        default: null,
+    },
+    facebookId: {
+        type: String,
+        default: null,
+    },
 }, { timestamps: true, versionKey: false })
-
+authSchmas.virtual("formattedCreatedAt").get(function () {
+    return format(this.createdAt, "HH:mm a dd/MM/yyyy");
+});
 export default mongoose.model("Auth", authSchmas)

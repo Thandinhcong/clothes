@@ -16,7 +16,7 @@ export const listAllBrand = async (req, res) => {
             data: brand,
         })
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error.message,
         });
     }
@@ -37,7 +37,7 @@ export const listOneBrand = async (req, res) => {
             data: listOne
         })
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error.message,
         });
     }
@@ -72,7 +72,7 @@ export const createBrand = async (req, res) => {
             brand,
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error,
         });
     }
