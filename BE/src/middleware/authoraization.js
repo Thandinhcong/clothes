@@ -3,7 +3,7 @@ export const authorization = async (req, res, next) => {
         if (req.user.id === req.params.id || req.user.role === "admin") {
             return next()
         } else {
-            return res.status(203).json({
+            return res.status(403).json({
                 message: "Bạn không có quyền truy cập tài nguyên!"
             })
         }

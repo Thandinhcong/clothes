@@ -27,7 +27,7 @@ export const Signup = async (req, res) => {
             ...req.body,
             password: hashedPassword
         })
-        const token = jwt.sign({ id: user._id }, process.env.KEY, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user._id }, process.env.KEY, { expiresIn: "1d" });
         user.password = undefined;
         return res.status(201).json({
             status: true,
@@ -64,7 +64,7 @@ export const Signin = async (req, res) => {
                 message: "Mật khẩu không chính xác!"
             })
         }
-        const token = jwt.sign({ id: checkEmail._id }, process.env.KEY, { expiresIn: "1h" });
+        const token = jwt.sign({ id: checkEmail._id }, process.env.KEY, { expiresIn: "1d" });
         return res.status(200).json({
             status: true,
             message: "Đăng nhập thành công!",

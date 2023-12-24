@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
-import slug from "mongoose-slug-generator";
-const CategorySchema = new mongoose.Schema(
+import mongooseDelete from "mongoose-delete";
+const CategorySchema = mongoose.Schema(
     {
         category_name: {
             type: String,
@@ -35,6 +35,6 @@ const CategorySchema = new mongoose.Schema(
     },
     { timestamps: true, versionKey: false }
 );
-mongoose.plugin(slug);
 CategorySchema.plugin(mongoosePaginate);
+CategorySchema.plugin(mongooseDelete, { overrideMethods: 'all', deletedAt: true });
 export default mongoose.model("Category", CategorySchema);
