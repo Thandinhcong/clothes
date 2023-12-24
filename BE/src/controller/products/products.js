@@ -125,3 +125,12 @@ export const listAllDelete = async (req, res) => {
         });
     }
 };
+
+export const createProduct = async (req, res) => {
+    try {
+        const { product_name } = req.query;
+
+    } catch (error) {
+
+    }
+}

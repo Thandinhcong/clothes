@@ -3,14 +3,14 @@ import mongoosePaginate from "mongoose-paginate-v2";
 
 var productFavoriteSchema = new mongoose.Schema(
     {
-        products: [
-            {
-                type: mongoose.Types.ObjectId,
-                ref: "Product",
-                require: true,
-            },
-        ],
-        user_id: {
+        productId:
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "Product",
+            require: true,
+        },
+
+        userId: {
             type: mongoose.Types.ObjectId,
             ref: "User",
             require: true,
