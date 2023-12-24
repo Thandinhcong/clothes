@@ -7,7 +7,7 @@ export const listAllProductFavorite = async (req, res) => {
         const userId = req.params.id;
         const favoriteProduct = await Favorite.find({ userId: userId }).populate({
             path: "productId",
-            select: "product_name product_price image avatar",
+            select: "product_name product_price product_image avatar",
 
         }).sort({ createdAt: -1 });
         return res.status(200).json({

@@ -1,4 +1,6 @@
+import Category from "../../models/Category";
 import Product from "../../models/products";
+import { ProductSchema } from "../../schema/product";
 
 export const ListAllProducts = async (req, res) => {
     const { _page = 1, _limit = 20, _sort = "createAt", _order = "asc" } = req.query;
@@ -128,9 +130,116 @@ export const listAllDelete = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { product_name } = req.query;
-
+        const body = req.body;
+        const { product_name } = body;
+        const data = await Product.findOne({ product_name });
+        const { error } = ProductSchema.validate(body, { abortEarly: false });
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(400).json({
+                status: false,
+                message: errors
+            })
+        }
+        if (data) {
+            return res.status(400).json({
+                status: false,
+                message: "Tên Sản phẩm đã tồn tại",
+            })
+        }
+        const product = await Product.create(body);
+        await Category.findOneAndUpdate(product.categoryId, {
+            $addToSet: {
+                products: product._id
+            }
+        })
+        if (product.length === 0) {
+            return res.status(400).json({
+                status: false,
+                message: "Thêm sản phẩm thất bại"
+            })
+        }
+        return res.status(201).json({
+            status: true,
+            message: "Thêm sản phẩm thành công!",
+            data: product
+        })
     } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: "Có lỗi sảy ra khi thêm sản phẩm!"
+        })
+    }
+}
 
+export const updateProduct = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const body = req.body;
+        const { categoryId } = req.body;
+        const { product_name } = body;
+        const product = await Product.findById(id);
+        // validate
+        const { error } = ProductSchema.validate(body, { abortEarly: false });
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(400).json({
+                status: false,
+                message: errors
+            })
+        }
+        //check tên
+        const isSetName = await Product.findOne({ product_name, _id: { $ne: id } });
+        if (isSetName) {
+            return res.status(400).json({
+                status: false,
+                message: "Tên Sản phẩm đã tồn tại",
+            })
+        }
+        await Category.findByIdAndUpdate(product.categoryId, {
+            $pull: {
+                products: product._id
+            }
+        })
+        await Category.findByIdAndUpdate(categoryId, {
+            $addToSet: {
+                products: product._id
+            }
+        })
+        const data = await Product.findByIdAndUpdate({ _id: id }, body, { new: true })
+        if (data.length === 0) {
+            return res.status(400).json({
+                status: false,
+                message: "Cập nhật sản phẩm thất bại"
+            })
+        }
+        return res.status(200).json({
+            status: true,
+            message: "Cập nhật sản phẩm thành công",
+            data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: "Có lỗi sảy ra khi cập nhật sản phẩm!"
+        })
+    }
+}
+export const viewProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await Product.findById(productId);
+
+        if (!product) {
+            return res.status(404).json({ error: 'Sản phẩm không tồn tại.' });
+        }
+
+        product.views += 1;
+        await product.save();
+
+        res.json({ message: 'Đã xem sản phẩm.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Lỗi trong quá trình xử lý.' });
     }
 }
