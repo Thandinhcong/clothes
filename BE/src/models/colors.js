@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const colorSchema = mongoose.Schema({
-    colors_name: {
+    color_name: {
         type: String,
         required: true,
     },

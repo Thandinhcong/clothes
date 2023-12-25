@@ -10,6 +10,7 @@ import routerProduct from "./routes/products";
 import routerBrand from "./routes/brand";
 import routerPassport from "./routes/passport";
 import routerProductFavorite from "./routes/productFavorite";
+import routerColor from "./routes/colors";
 dotenv.config();
 
 const app = express();
@@ -33,6 +34,8 @@ app.use("/api", routerProduct);
 app.use("/api", routerAuths);
 app.use("/api", routerPassport);
 app.use("/api", routerProductFavorite);
+app.use("/api", routerColor);
+
 mongoose.connect(process.env.MONGO_URL);
 export const viteNodeApp = app;
 
