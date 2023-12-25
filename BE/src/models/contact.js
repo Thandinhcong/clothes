@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
+import mongooseDelete from "mongoose-delete";
 
 const ContactSchema = new mongoose.Schema(
     {
@@ -26,4 +27,5 @@ const ContactSchema = new mongoose.Schema(
 );
 
 ContactSchema.plugin(mongoosePaginate);
+ContactSchema.plugin(mongooseDelete, { overrideMethods: 'all', deletedAt: true });
 export default mongoose.model("Contact", ContactSchema);

@@ -11,13 +11,14 @@ import routerBrand from "./routes/brand";
 import routerPassport from "./routes/passport";
 import routerProductFavorite from "./routes/productFavorite";
 import routerColor from "./routes/colors";
+import routerContact from "./routes/contacts";
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(session({
-    secret: 'emchaoanh',
+    secret: process.env.KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -35,7 +36,7 @@ app.use("/api", routerAuths);
 app.use("/api", routerPassport);
 app.use("/api", routerProductFavorite);
 app.use("/api", routerColor);
-
+app.use("/api", routerContact);
 mongoose.connect(process.env.MONGO_URL);
 export const viteNodeApp = app;
 

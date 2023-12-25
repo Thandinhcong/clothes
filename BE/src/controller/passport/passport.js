@@ -20,7 +20,7 @@ passport.use(new GoogleStrategy({
         authType: "google"
     });
     if (isExitUser) {
-        const token = jwt.sign({ id: isExitUser._id }, "emchaoanh", { expiresIn: "1d" });
+        const token = jwt.sign({ id: isExitUser._id }, process.env.KEY, { expiresIn: "1d" });
         return done(null, { user: isExitUser, accessToken: token })
     } else {
         try {
@@ -36,7 +36,7 @@ passport.use(new GoogleStrategy({
                 password: "Không có mật khẩu",
             })
             await newUser.save();
-            const token = jwt.sign({ id: newUser._id }, "emchaoanh", { expiresIn: "1d" });
+            const token = jwt.sign({ id: newUser._id }, process.env.KEY, { expiresIn: "1d" });
             done(null, { user: newUser, accessToken: token });
 
         } catch (error) {
