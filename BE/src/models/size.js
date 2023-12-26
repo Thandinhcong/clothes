@@ -11,7 +11,7 @@ const SizeSchema = mongoose.Schema({
     },
     size_info: {
         type: String,
-        default: 'norma'
+        default: 'M'
     },
 }, { timestamps: true, versionKey: false });
 

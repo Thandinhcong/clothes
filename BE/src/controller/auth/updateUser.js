@@ -17,9 +17,13 @@ export const updateUser = async (req, res) => {
             });
         }
         const updateProfile = await Auth.findByIdAndUpdate(idUser, { ...req.body }, { new: true });
+        updateProfile.role = undefined;
+        updateProfile.password = undefined;
+        updateProfile.authType = undefined;
         return res.status(200).json({
             success: true,
             message: "Cập nhật tài khoản thành công",
+            data: updateProfile,
         });
     } catch (error) {
         return res.status(500).json({

@@ -76,7 +76,7 @@ export const removeContact = async (req, res) => {
             contact
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error,
         });
     }
@@ -90,7 +90,7 @@ export const removeForceContact = async (req, res) => {
             contact
         })
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error,
         })
     }
@@ -119,12 +119,12 @@ export const addContact = async (req, res) => {
                 message: "Không tìm thấy liên hệ",
             });
         }
-        return res.status(200).json({
+        return res.status(201).json({
             message: "Thêm liên hệ thành công",
             contact,
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error,
         });
     }
@@ -143,7 +143,7 @@ export const restoreContact = async (req, res) => {
             contacts: restoredContact,
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error.message,
         });
     }
@@ -173,7 +173,7 @@ export const updateContact = async (req, res) => {
             contact,
         });
     } catch (error) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: error.message,
         });
     }
