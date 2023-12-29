@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 import mongooseDelete from "mongoose-delete";
 
-const schemaProduct = mongoose.Schema({
+const schemaProduct = new mongoose.Schema({
     product_name: {
         required: true,
         type: String

@@ -1,7 +1,6 @@
 import Joi from "joi";
 
 export const ProductSchema = Joi.object({
-    _id: Joi.string(),
     product_name: Joi.string().required().messages({
         "string.empty": "Tên sản phẩm bắt buộc nhập",
         "any.required": "Trường tên sản phẩm bắt buộc nhập"

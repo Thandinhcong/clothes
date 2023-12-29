@@ -4,9 +4,9 @@ import { createFavoriteProduct, getFavoriteProducts, listAllProductFavorite, rem
 
 const routerProductFavorite = express.Router();
 
-routerProductFavorite.get("/productFavorites", listAllProductFavorite);
-routerProductFavorite.get("/productFavorite/:id", getFavoriteProducts);
-routerProductFavorite.post("/productFavorite/add", authenticate, createFavoriteProduct);
+routerProductFavorite.get("/productFavorites", getFavoriteProducts);
+routerProductFavorite.get("/productFavorite/:id", listAllProductFavorite);
+routerProductFavorite.post("/productFavorite/add/:id", authenticate, createFavoriteProduct);
 routerProductFavorite.delete("/productFavorite/delete/:id", removeFavoriteProduct);
 
 

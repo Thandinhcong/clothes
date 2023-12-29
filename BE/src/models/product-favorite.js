@@ -1,19 +1,19 @@
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
-var productFavoriteSchema = new mongoose.Schema(
+const productFavoriteSchema = mongoose.Schema(
     {
         productId:
         {
             type: mongoose.Types.ObjectId,
             ref: "Product",
-            require: true,
+            required: true,
         },
 
         userId: {
             type: mongoose.Types.ObjectId,
             ref: "User",
-            require: true,
+            required: true,
         },
         favorite_is_new: {
             type: Boolean,

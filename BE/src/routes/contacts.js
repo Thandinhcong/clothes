@@ -1,7 +1,7 @@
 import express from "express";
 import { addContact, getAllContact, getAllDeleteContact, getContactById, removeContact, removeForceContact, restoreContact, updateContact } from "../controller/contact/contact";
-import { authenticate } from "passport";
 import { authorization } from "../middleware/authoraization";
+import { authenticate } from "../middleware/authenticate";
 
 const routerContact = express.Router();
 

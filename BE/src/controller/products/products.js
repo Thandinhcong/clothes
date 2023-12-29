@@ -32,27 +32,47 @@ export const ListAllProducts = async (req, res) => {
         })
     }
 }
+
+
+export const listAllDelete = async (req, res) => {
+    try {
+        const deletedProduct = await Product.findWithDeleted({ deleted: true });
+        return res.status(200).json({
+            message: "Lấy tất cả sản phẩm đã bị xóa mềm",
+            data: deletedProduct
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error,
+        });
+    }
+};
+
 export const getOneProduct = async (req, res) => {
     try {
-        const listOneProduct = await Product.findOne({ _id: req.params.id });
+        const productId = req.params.id;
+
+        const listOneProduct = await Product.findById(productId);
         if (!listOneProduct) {
             return res.status(404).json({
                 status: false,
                 message: "Không tìm thấy sản phẩm"
-            })
+            });
         }
+
         return res.status(200).json({
             status: true,
             message: "Lấy thông tin sản phẩm thành công.",
             data: listOneProduct
-        })
+        });
     } catch (error) {
         return res.status(500).json({
             status: false,
             message: "Có lỗi xảy ra!"
-        })
+        });
     }
-}
+};
+
 
 //xóa mềm
 export const removeProduct = async (req, res) => {
@@ -113,20 +133,6 @@ export const restoreProduct = async (req, res) => {
     }
 };
 
-
-export const listAllDelete = async (req, res) => {
-    try {
-        const deletedProduct = await Product.findWithDeleted({ deleted: true });
-        return res.status(200).json({
-            message: "Lấy tất cả sản phẩm đã bị xóa mềm",
-            data: deletedProduct
-        });
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message,
-        });
-    }
-};
 
 export const createProduct = async (req, res) => {
     try {

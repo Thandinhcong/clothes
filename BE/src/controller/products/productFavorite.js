@@ -7,8 +7,7 @@ export const listAllProductFavorite = async (req, res) => {
         const userId = req.params.id;
         const favoriteProduct = await Favorite.find({ userId: userId }).populate({
             path: "productId",
-            select: "product_name product_price product_image avatar",
-
+            select: "product_name product_price image",
         }).sort({ createdAt: -1 });
         return res.status(200).json({
             status: true,
@@ -24,8 +23,12 @@ export const listAllProductFavorite = async (req, res) => {
 }
 export const getFavoriteProducts = async (req, res) => {
     try {
-        const { productId, userId } = req.query;
+        const { productId, userId } = req.params;
+        console.log("productId", productId);
+        console.log("userId", userId);
+
         const favoriteProduct = await Favorite.findOne({ userId: userId, productId: productId });
+        console.log("favoriteProduct", favoriteProduct);
         return res.status(200).json({
             status: true,
             message: "Lấy sản phẩm được yêu thích",
@@ -41,7 +44,9 @@ export const getFavoriteProducts = async (req, res) => {
 
 export const createFavoriteProduct = async (req, res) => {
     try {
-        const userId = req.params.id;
+        const userId = req.user;
+        userId.password = undefined;
+        userId.role = undefined;
         const { productId } = req.body;
         const exitUser = await Auth.findById(userId);
         if (!exitUser) {

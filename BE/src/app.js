@@ -12,6 +12,7 @@ import routerPassport from "./routes/passport";
 import routerProductFavorite from "./routes/productFavorite";
 import routerColor from "./routes/colors";
 import routerContact from "./routes/contacts";
+import routerSize from "./routes/size";
 dotenv.config();
 
 const app = express();
@@ -37,6 +38,7 @@ app.use("/api", routerPassport);
 app.use("/api", routerProductFavorite);
 app.use("/api", routerColor);
 app.use("/api", routerContact);
+app.use("/api", routerSize)
 mongoose.connect(process.env.MONGO_URL);
 export const viteNodeApp = app;
 
