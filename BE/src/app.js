@@ -14,6 +14,7 @@ import routerColor from "./routes/colors";
 import routerContact from "./routes/contacts";
 import routerSize from "./routes/size";
 import routerChildProduct from "./routes/childProduct";
+import cartRouter from "./routes/cart";
 dotenv.config();
 
 const app = express();
@@ -41,7 +42,7 @@ app.use("/api", routerColor);
 app.use("/api", routerContact);
 app.use("/api", routerSize);
 app.use("/api", routerChildProduct);
-
+app.use("/api", cartRouter);
 mongoose.connect(process.env.MONGO_URL);
 export const viteNodeApp = app;
 
