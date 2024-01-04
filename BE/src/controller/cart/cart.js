@@ -18,7 +18,7 @@ export const resetCart = async (idUser) => {
     }
 }
 
-export const addProduct = async (cartExist, productAdd, res) => {
+const addProduct = async (cartExist, productAdd, res) => {
     try {
         const productExits = cartExist.products.find((product) =>
             product.productId === productAdd.productId &&
@@ -77,7 +77,9 @@ export const create = async (req, res) => {
                 message: errors
             })
         }
-        const cartExist = await Cart.findOne({ userId: userId })
+        const cartExist = await Cart.findOne({ userId: userId });
+
+        console.log("cartExist", cartExist);
         if (cartExist) {
             return addProduct(cartExist, productNeedToAdd, res)
         }
@@ -101,6 +103,7 @@ export const create = async (req, res) => {
             data: newCart
         })
     } catch (error) {
+        console.log("error", error.message);
         return res.status(500).json({
             status: false,
             message: "Cố lỗi xảy ra"

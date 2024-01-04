@@ -2,7 +2,7 @@ import { required } from "joi";
 import mongoose from "mongoose";
 
 const cartSchema = mongoose.Schema({
-    user_id: {
+    userId: {
         type: mongoose.Types.ObjectId,
         ref: "Auth",
         required: true

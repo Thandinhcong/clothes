@@ -1,6 +1,6 @@
 import ChildProduct from "../../models/childProduct.js";
 import { childProductSchema } from "../../schema/childProduct.js";
-import Size from "../models/size.js";
+// import Size from "../models/size.js";
 
 export const listChildProducts = async (req, res) => {
     try {
